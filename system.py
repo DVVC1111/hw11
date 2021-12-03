@@ -15,15 +15,18 @@ def System():
     # Sell Coffee (1)
     if main_select == "1":
         sell_coffee.sell_coffee()
+        System()
 
     # Report (2)      
     elif main_select == "2":
         report.report()
+        System()
         
 
     # Inventory (3) 
     elif main_select == "3":
         print("Inventory")
+        System()
     
     elif main_select == "e" or main_select == "E":
         return
