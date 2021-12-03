@@ -1,5 +1,6 @@
 import sell_coffee
 import report
+import inventory
 
 def System():
     print('''
@@ -25,7 +26,7 @@ def System():
 
     # Inventory (3) 
     elif main_select == "3":
-        print("Inventory")
+        inventory.refilling()
         System()
     
     elif main_select == "e" or main_select == "E":
@@ -34,3 +35,4 @@ def System():
     # Catch Input
     else:
         print("Unkwnown Input")
+        System()

@@ -22,7 +22,7 @@ def report():
         report()
     
     elif report_select == "2":
-        Report_Function.sale_report()
+        Report_Function.sale_reporting()
         report()
         
         
@@ -55,7 +55,7 @@ class Report_Function:
         print(customer_information.get_string())
 
     # Sale Report (2)
-    def sale_report():
+    def sale_reporting():
         user_input = input("""
                 Select Sale Report:
                 (1): Get All
@@ -65,11 +65,14 @@ class Report_Function:
         if user_input == "1":
             # Main/Report/Sale_Report/Get_All
             sale_report.get_all()
-            sale_report()
+            
         elif user_input == "2":
             # Main/Report/Sale_Report/From_Specific_Date
             sale_report.from_specific_date()
-            sale_report()
+           
+        elif user_input == "e" or user_input == "E":
+            return
+            
 
     # Member Report (3)
     def member_report():
