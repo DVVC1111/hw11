@@ -163,6 +163,8 @@ class Sell_Coffee_Function:
             elif coffee_id_selection == 3:
                 total_price += 3.0
             
+            mydb = mysql_connect.sql_connect()
+            mycursor = mydb.cursor()
             mycursor.execute("SELECT  mat_water, mat_cofbean, mat_sugar FROM material WHERE mat_id=%s", (coffee_id_selection, ))
             coffee_mat = list((mycursor.fetchall())[0])
             instock_or_not = compare_res_mat.check_mat(coffee_mat)
@@ -176,7 +178,7 @@ class Sell_Coffee_Function:
                 
                 mydb.commit()
 
-                mycursor.execute("SELECT cus_firstname FROM customer WHERE cus_id=%s",(customer_index, ))
+                mycursor.execute("SELECT cus_firstname FROM customer WHERE cus_id=%s",(12, ))
                 username = (mycursor.fetchall())[0][0]
                 
                 print(mycursor.rowcount, " Sale Successful")
