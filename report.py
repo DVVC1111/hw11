@@ -3,6 +3,9 @@ from prettytable import PrettyTable
 import mysql_connect
 import sale_report
 
+# Main/Report 
+# Module Functions
+
 # Resource Report (1)
 def resource_report():
     mydb = mysql_connect.sql_connect()
@@ -30,12 +33,14 @@ def sale_report():
             (e): Exit
             Key In:  """)
     if user_input == 1:
+        # Main/Report/Sale_Report/Get_All
         sale_report.get_all()
     elif user_input == 2:
+        # Main/Report/Sale_Report/From_Specific_Date
         sale_report.from_specific_date()
 
-# Customer Report (3)
-def customer_report():
+# Member Report (3)
+def member_report():
     mydb = mysql_connect.sql_connect()
     mycursor = mydb.cursor()
     mycursor.execute("SELECT * FROM customer")
