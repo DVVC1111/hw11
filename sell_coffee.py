@@ -2,6 +2,7 @@ import mysql.connector
 import mysql_connect
 from datetime import datetime
 import compare_res_mat
+import post_sale
 
 # Main/System/Sell_Coffee 
 # Module Function
@@ -19,7 +20,7 @@ def sell_coffee():
     sell_select = input("Key in selection: ")
     
     if sell_select == "1":
-        print("You're a Guest")
+        Sell_Coffee_Function.guest()
         sell_coffee()
         
     elif sell_select == "2":
@@ -97,6 +98,12 @@ class Sell_Coffee_Function:
                     Total: {1} USD
                     Your Coffee will be ready in 10 hours  
                     """.format(username, total_price)) 
+                
+                post_sale.decrease_resource(coffee_mat)
+                
+                
+                
+                
             
             elif instock_or_not == False:
                 print("You don't have enough resource")
@@ -122,3 +129,63 @@ class Sell_Coffee_Function:
         mydb.commit()
 
         print(mycursor.rowcount, "user(s) registered")
+        
+    def guest():
+        print("""You're a Guest, 
+              
+              (1) : Register
+              (2) : Proceed as a Guest (You will not receive any membership discount!!)
+              (e) : Exit
+              """)
+        
+        guest_input = input("Input you choice: ")
+        
+        if guest_input == "1":
+            Sell_Coffee_Function.register()
+        elif guest_input == "2":
+            today = datetime.today().strftime('%Y-%m-%d')
+            
+            print("""
+            -----Select Your Coffee-----
+            ------------------------------
+            (1) : Americano - 2.0
+            (2) : Latte - 2.5
+            (3) : Cappuccino - 3.0
+            (e) : Exit 
+            """)
+            
+            coffee_id_selection = int(input("Coffee Selection: "))
+            total_price = 0
+            if coffee_id_selection == 1:
+                total_price += 2.0
+            elif coffee_id_selection == 2:
+                total_price += 2.5
+            elif coffee_id_selection == 3:
+                total_price += 3.0
+            
+            mycursor.execute("SELECT  mat_water, mat_cofbean, mat_sugar FROM material WHERE mat_id=%s", (coffee_id_selection, ))
+            coffee_mat = list((mycursor.fetchall())[0])
+            instock_or_not = compare_res_mat.check_mat(coffee_mat)
+            
+            if instock_or_not == True:
+            
+                sql = "INSERT INTO sell (cus_id, coffee_id, sell_total,sell_date) VALUES (%s, %s,%s,%s)"
+                val = (12, coffee_id_selection, 1.0, today)
+                mycursor.execute(sql, val)
+
+                
+                mydb.commit()
+
+                mycursor.execute("SELECT cus_firstname FROM customer WHERE cus_id=%s",(customer_index, ))
+                username = (mycursor.fetchall())[0][0]
+                
+                print(mycursor.rowcount, " Sale Successful")
+                    
+                print("""
+                    Thank you, {0}
+                    Total: {1} USD
+                    Your Coffee will be ready in 10 hours  
+                    """.format(username, total_price)) 
+                
+                post_sale.decrease_resource(coffee_mat)
+            

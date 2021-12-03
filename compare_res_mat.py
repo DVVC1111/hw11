@@ -1,6 +1,9 @@
 import mysql.connector
 import mysql_connect
 
+# Check Whether there is a remaining resource
+
+
 def check_mat(coffee_material):
     mydb = mysql_connect.sql_connect()
     mycursor = mydb.cursor()
